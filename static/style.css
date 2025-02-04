@@ -1,10 +1,8 @@
-/* ------------ static/style.css ------------ */
 :root {
-    --primary: #1A1A1A;
+    --primary: #2A2A2A;
     --accent: #00FF88;
-    --background: #0D0D0D;
+    --background: #121212;
     --text: #FFFFFF;
-    --secondary: #2D2D2D;
 }
 
 body {
@@ -16,43 +14,73 @@ body {
     min-height: 100vh;
 }
 
-.container {
-    max-width: 1400px;
+.brain-rot-container {
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-h1 {
+.brain-rot-title {
     text-align: center;
     font-weight: 700;
     letter-spacing: -0.05em;
     margin-bottom: 3rem;
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     background: linear-gradient(45deg, var(--accent), #00D1FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.stats-grid {
+.meme-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 2rem 0;
+}
+
+.john-travolta-meme {
+    max-width: 50px;
+    /* border: 3px solid #00FF88;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3); */
+}
+
+.meme-caption {
+    color: #00FF88;
+    font-size: 1.2rem;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Comic Sans MS', cursive;
+}
+.brain-rot-titles {
+    text-align: center;
+    letter-spacing: -0.05em;
+    margin-bottom: 3rem;
+    background: linear-gradient(45deg, var(--accent), #00D1FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brain-rot-stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
     margin: 3rem 0;
 }
 
-.stat-card {
+.brain-rot-stat-card {
     background: var(--primary);
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 2rem;
     transition: transform 0.3s ease;
-    border: 1px solid var(--secondary);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.stat-card:hover {
+.brain-rot-stat-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 32px rgba(0, 255, 136, 0.1);
 }
 
-.stat-card h3 {
+.brain-rot-stat-card h3 {
     color: var(--accent);
     margin: 0 0 1rem 0;
     font-size: 1.1rem;
@@ -61,38 +89,36 @@ h1 {
     gap: 0.5rem;
 }
 
-.stat-card p {
+.brain-rot-stat-card p {
     font-size: 1.8rem;
     margin: 0;
     font-weight: 700;
 }
 
-.graph-container {
+.brain-rot-graph-container {
     background: var(--primary);
     border-radius: 16px;
     padding: 2rem;
     margin: 2rem 0;
-    border: 1px solid var(--secondary);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.graph-container h2 {
-    margin: 0 0 1.5rem 0;
+.brain-rot-graph-container h2 {
+    margin: 0 0 2rem 0;
     color: var(--accent);
-    font-size: 1.4rem;
 }
 
-.hacker-graph {
+.brain-rot-graph {
     width: 100%;
     border-radius: 12px;
-    border: 1px solid var(--secondary);
 }
 
-.upload-container {
+.brain-rot-upload-zone {
     text-align: center;
     margin: 4rem 0;
 }
 
-.custom-upload-btn {
+.brain-rot-upload-btn {
     background: var(--primary);
     color: var(--text);
     border: 2px solid var(--accent);
@@ -107,18 +133,40 @@ h1 {
     margin: 0 1rem;
 }
 
-.custom-upload-btn:hover {
+.brain-rot-upload-btn:hover {
     background: var(--accent);
     color: var(--background);
-    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
 }
 
-.error {
+.brain-rot-scan-btn {
+    background: var(--primary);
+    color: var(--text);
+    border: 2px solid var(--accent);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 1rem;
+}
+
+.brain-rot-scan-btn:hover {
+    background: var(--accent);
+    color: var(--background);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.brain-rot-error {
     color: #FF4444;
     background: rgba(255, 68, 68, 0.1);
     padding: 1rem;
     border-radius: 8px;
     margin: 2rem 0;
     text-align: center;
-    border: 1px solid #FF4444;
 }

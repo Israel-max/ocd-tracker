@@ -3,83 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberExpense Tracker</title>
+    <title>Cash Dementia Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>⧩ CyberExpense Tracker ⧩</h1>
-        
-        <div class="upload-container">
-            <form action="/" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" id="file">
-                <label for="file" class="custom-upload-btn">
-                    <i class="fas fa-upload"></i> CHOOSE DATAFILE
-                </label>
-                <button type="submit" class="custom-upload-btn">
-                    <i class="fas fa-rocket"></i> INITIATE SCAN
-                </button>
-            </form>
+    <div class="brain-rot-container">
+        <h1 class="brain-rot-title"><img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"> Cash Dementia Tracker <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"></h1>
+        <div class="meme-container">
+            
         </div>
 
         {% if error_message %}
-            <div class="error">{{ error_message }}</div>
+            <div class="brain-rot-error">
+                🚨 CATASTROPHIC FAILURE: {{ error_message }} 🚨
+            </div>
         {% endif %}
 
         {% if analysis_result %}
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3><i class="fas fa-coins"></i> Total Spent</h3>
+            <div class="brain-rot-stats-grid">
+                <div class="brain-rot-stat-card">
+                    <h3><i class="fas fa-fire-extinguisher"></i> Total Spent</h3>
                     <p>ETB {{ "%.2f"|format(analysis_result.total_spent) }}</p>
                 </div>
                 
-                <div class="stat-card">
-                    <h3><i class="fas fa-calendar-day"></i> Most Active Day</h3>
+                <div class="brain-rot-stat-card">
+                    <h3><i class="fas fa-calendar-armageddon"></i> Most Active Day</h3>
                     <p>{{ analysis_result.most_active_day }}</p>
                 </div>
                 
-                <div class="stat-card">
-                    <h3><i class="fas fa-clock"></i> Peak Activity Hour</h3>
+                <div class="brain-rot-stat-card">
+                    <h3><i class="fas fa-clockwork-orange"></i> Peak Activity Hour</h3>
                     <p>{{ analysis_result.peak_hour }}:00</p>
                 </div>
                 
-                <div class="stat-card">
-                    <h3><i class="fas fa-store"></i> Favorite Merchant</h3>
+                <div class="brain-rot-stat-card">
+                    <h3><i class="fas fa-store-of-doom"></i> Guilty Pleasure Dealer / Favorite Merchant</h3>
                     <p>{{ analysis_result.top_merchant }}</p>
                 </div>
             </div>
 
-            <div class="graph-container">
-                <h2><i class="fas fa-fire"></i> Spending Frequency</h2>
+            <div class="brain-rot-graph-container">
+                <h2><i class="fas fa-brain-freeze"></i> Spending Frequency</h2>
                 <img src="{{ url_for('get_graph', filename=graph_filenames.heatmap) }}" 
-                     alt="Heatmap" class="hacker-graph">
+                     class="brain-rot-graph">
             </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3><i class="fas fa-coffee"></i> Daily Small Expenses</h3>
+
+            <div class="brain-rot-stats-grid">
+                <div class="brain-rot-stat-card">
+                    <h3><i class="fas fa-coffee-spill"></i> Daily small exchange</h3>
                     <p>ETB {{ "%.2f"|format(analysis_result.savings_opportunity.daily_coffee_cost) }}</p>
                 </div>
                 
-                <div class="stat-card">
-                    <h3><i class="fas fa-piggy-bank"></i> Potential Yearly Savings</h3>
+                <div class="brain-rot-stat-card">
+                    <h3><i class="fas fa-piggy-bank-explosion"></i> Potential Yearly Savings</h3>
                     <p>ETB {{ "%.2f"|format(analysis_result.savings_opportunity.potential_yearly_savings) }}</p>
                 </div>
             </div>
 
-            <div class="graph-container">
-                <h2><i class="fas fa-chart-bar"></i> Monthly Expenditure</h2>
+            <div class="brain-rot-graph-container">
+                <h2><i class="fas fa-skull-cash"></i> Monthly Financial Seizure</h2>
                 <img src="{{ url_for('get_graph', filename=graph_filenames.monthly) }}" 
-                     alt="Monthly Expenses" class="hacker-graph">
+                     class="brain-rot-graph">
             </div>
 
-            <div class="graph-container">
-                <h2><i class="fas fa-chart-pie"></i> Transaction Sizes</h2>
+            <div class="brain-rot-graph-container">
+                <h2><i class="fas fa-money-vertigo"></i> Cash Dementia Wheel</h2>
                 <img src="{{ url_for('get_graph', filename=graph_filenames.distribution) }}" 
-                     alt="Amount Distribution" class="hacker-graph">
+                     class="brain-rot-graph">
             </div>
-
-            
         {% endif %}
     </div>
 </body>
