@@ -7,7 +7,10 @@ import seaborn as sns
 from datetime import datetime
 from collections import defaultdict
 
-GRAPH_FOLDER = "static/graphs"
+# GRAPH_FOLDER = "static/graphs"
+# os.makedirs(GRAPH_FOLDER, exist_ok=True)
+
+GRAPH_FOLDER = os.path.join(os.path.dirname(__file__), "static/graphs")
 os.makedirs(GRAPH_FOLDER, exist_ok=True)
 
 def analyze_transactions(file_path):
