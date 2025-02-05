@@ -20,7 +20,8 @@ def analyze_transactions(file_path):
     except Exception as e:
         return {"error": "Invalid file format"}, None
 
-    sms_list = data.get("sms", [])
+    sms_list = data.get("sms", []) + data.get("messages", [])
+
     transactions = []
     
     for message in sms_list:

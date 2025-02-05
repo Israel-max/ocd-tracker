@@ -8,27 +8,33 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!-- <div class="debug-info">
-        <h3>Debug Information:</h3>
-        <p>Analysis Result Exists: {{ analysis_result is not none }}</p>
-        <p>Graph Filenames: {{ graph_filenames }}</p>
-    </div> -->
-    
     <div class="brain-rot-container">
+<<<<<<< HEAD
         <h1 class="brain-rot-title"><img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"> Cash Dementia Tracker <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"></h1>
         <div class="meme-container">
             
         </div>
+=======
+        <h1 class="brain-rot-title">
+            <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"> 
+            Cash Dementia Tracker 
+            <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme">
+        </h1>
+        <div class="meme-container"></div>
+>>>>>>> c70cbd5 (please work)
         <form action="/" method="POST" enctype="multipart/form-data">
             <label for="file" class="brain-rot-upload-btn">Upload JSON File</label>
             <input type="file" name="file" id="file">
             <button type="submit" class="brain-rot-upload-btn">Analyze</button>
         </form>
+<<<<<<< HEAD
 <!--         <div class="button-container">
             <button class="brain-rot-upload-btn">Upload JSON File</button>
             <button class="brain-rot-scan-btn">Analyze</button>
         </div> -->
         
+=======
+>>>>>>> c70cbd5 (please work)
 
         {% if error_message %}
             <div class="brain-rot-error">
@@ -42,17 +48,14 @@
                     <h3><i class="fas fa-fire-extinguisher"></i> Total Spent</h3>
                     <p>ETB {{ "%.2f"|format(analysis_result.total_spent) }}</p>
                 </div>
-                
                 <div class="brain-rot-stat-card">
                     <h3><i class="fas fa-calendar-armageddon"></i> Most Active Day</h3>
                     <p>{{ analysis_result.most_active_day }}</p>
                 </div>
-                
                 <div class="brain-rot-stat-card">
                     <h3><i class="fas fa-clockwork-orange"></i> Peak Activity Hour</h3>
                     <p>{{ analysis_result.peak_hour }}:00</p>
                 </div>
-                
                 <div class="brain-rot-stat-card">
                     <h3><i class="fas fa-store-of-doom"></i> Guilty Pleasure Dealer / Favorite Merchant</h3>
                     <p>{{ analysis_result.top_merchant }}</p>
@@ -61,8 +64,7 @@
 
             <div class="brain-rot-graph-container">
                 <h2><i class="fas fa-brain-freeze"></i> Spending Frequency</h2>
-                <img src="{{ url_for('get_graph', filename=graph_filenames.heatmap) }}" 
-                     class="brain-rot-graph">
+                <img src="{{ url_for('get_graph', filename=graph_filenames.heatmap) }}" class="brain-rot-graph">
             </div>
 
             <div class="brain-rot-stats-grid">
@@ -70,7 +72,6 @@
                     <h3><i class="fas fa-coffee-spill"></i> Daily small exchange</h3>
                     <p>ETB {{ "%.2f"|format(analysis_result.savings_opportunity.daily_coffee_cost) }}</p>
                 </div>
-                
                 <div class="brain-rot-stat-card">
                     <h3><i class="fas fa-piggy-bank-explosion"></i> Potential Yearly Savings</h3>
                     <p>ETB {{ "%.2f"|format(analysis_result.savings_opportunity.potential_yearly_savings) }}</p>
@@ -79,14 +80,12 @@
 
             <div class="brain-rot-graph-container">
                 <h2><i class="fas fa-skull-cash"></i> Monthly Financial Seizure</h2>
-                <img src="{{ url_for('get_graph', filename=graph_filenames.monthly) }}" 
-                     class="brain-rot-graph">
+                <img src="{{ url_for('get_graph', filename=graph_filenames.monthly) }}" class="brain-rot-graph">
             </div>
 
             <div class="brain-rot-graph-container">
                 <h2><i class="fas fa-money-vertigo"></i> Cash Dementia Wheel</h2>
-                <img src="{{ url_for('get_graph', filename=graph_filenames.distribution) }}" 
-                     class="brain-rot-graph">
+                <img src="{{ url_for('get_graph', filename=graph_filenames.distribution) }}" class="brain-rot-graph">
             </div>
         {% endif %}
     </div>

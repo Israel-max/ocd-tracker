@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, send_from_directory
 import expense_processor
 
+
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "uploads"
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
