@@ -8,11 +8,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <!-- <div class="debug-info">
+        <h3>Debug Information:</h3>
+        <p>Analysis Result Exists: {{ analysis_result is not none }}</p>
+        <p>Graph Filenames: {{ graph_filenames }}</p>
+    </div> -->
+    
     <div class="brain-rot-container">
         <h1 class="brain-rot-title"><img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"> Cash Dementia Tracker <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"></h1>
         <div class="meme-container">
             
         </div>
+        <!-- <form action="/" method="POST" enctype="multipart/form-data">
+            <label for="file" class="brain-rot-upload-btn">Upload JSON File</label>
+            <input type="file" name="file" id="file">
+            <button type="submit" class="brain-rot-upload-btn">Analyze</button>
+        </form> -->
+        <div class="button-container">
+            <button class="brain-rot-upload-btn">Upload JSON File</button>
+            <button class="brain-rot-scan-btn">Analyze</button>
+        </div>
+        
 
         {% if error_message %}
             <div class="brain-rot-error">
