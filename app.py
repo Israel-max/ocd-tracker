@@ -2,7 +2,6 @@ import os
 from flask import Flask, render_template, request, send_from_directory
 import expense_processor
 
-
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "uploads"
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
@@ -26,18 +25,18 @@ def index():
                 return render_template("index.html", error_message=stats["error"])
                 
             return render_template("index.html", 
-                                analysis_result=stats,
-                                graph_filenames=graph_filenames,
-                                error_message=None)
+                                   analysis_result=stats,
+                                   graph_filenames=graph_filenames,
+                                   error_message=None)
                                 
         except Exception as e:
             return render_template("index.html", 
-                                error_message=f"System Error: {str(e)}")
+                                   error_message=f"System Error: {str(e)}")
 
     return render_template("index.html", 
-                         analysis_result=None, 
-                         graph_filenames=None,
-                         error_message=None)
+                           analysis_result=None, 
+                           graph_filenames=None,
+                           error_message=None)
 
 @app.route("/graphs/<filename>")
 def get_graph(filename):

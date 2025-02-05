@@ -1,85 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberExpense Tracker</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyberExpense Tracker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-    <div class="brain-rot-container">
+  <div class="brain-rot-container">
+    <!-- Hero / Landing Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="brain-rot-title">
+          <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme" />
+          Cash Dementia Tracker
+          <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme" />
+        </h1>
+        <p class="hero-tagline">
+          Tired of losing track of your spending faster than your brain cells? Welcome to the one-step solution for your financial weak decisions
+        </p>
+        <div class="hero-details">
+          <h2>Why even use this frkn web you asked?</h2>
+          <p>
+            Because your wallet deserves better than a forgotten piggy bank! Our tracker will exposes your wild spending habits lil nigga
+          </p>
+          <h2>How to use it?</h2>
+          <ol>
+            <li>
+              <strong>Download an SMS backup:</strong> If you use Android, try “SMS Backup & Restore” from the Play Store.
+              iOS users can find similar apps on the App Store.
+            </li>
+            <li>
+              <strong>Export your messages:</strong> Export your SMS backup in JSON or XML format.
+            </li>
+            <li>
+              <strong>Upload and analyze:</strong> Use the form below to upload your file and see your spending stats.
+            </li>
+          </ol>
+          <a href="#upload" class="hero-btn">Get Started</a>
+        </div>
+      </div>
+    </section>
 
-        <h1 class="brain-rot-title"><img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"> Cash Dementia Tracker <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"></h1>
-        <div class="meme-container">
-            
+    <!-- Upload Form Section -->
+    <section id="upload" class="upload-section">
+      <form action="/" method="POST" enctype="multipart/form-data">
+        <label for="file" class="brain-rot-upload-btn">Upload JSON or XML File</label>
+        <input type="file" name="file" id="file" />
+        <button type="submit" class="brain-rot-upload-btn">Analyze</button>
+      </form>
+    </section>
+
+    {% if error_message %}
+      <div class="brain-rot-error">
+        🚨 CATASTROPHIC FAILURE: {{ error_message }} 🚨
+      </div>
+    {% endif %}
+
+    {% if analysis_result %}
+      <section class="results">
+        <div class="brain-rot-stats-grid">
+          <div class="brain-rot-stat-card">
+            <h3><i class="fas fa-fire-extinguisher"></i> Total Spent</h3>
+            <p>ETB {{ "%.2f"|format(analysis_result.total_spent) }}</p>
+          </div>
+          <div class="brain-rot-stat-card">
+            <h3><i class="fas fa-calendar-armageddon"></i> Most Active Day</h3>
+            <p>{{ analysis_result.most_active_day }}</p>
+          </div>
+          <div class="brain-rot-stat-card">
+            <h3><i class="fas fa-clockwork-orange"></i> Peak Activity Hour</h3>
+            <p>{{ analysis_result.peak_hour }}:00</p>
+          </div>
+          <div class="brain-rot-stat-card">
+            <h3><i class="fas fa-store-of-doom"></i> Favorite Merchant</h3>
+            <p>{{ analysis_result.top_merchant }}</p>
+          </div>
         </div>
 
-        <h1 class="brain-rot-title">
-            <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"> 
-            Cash Dementia Tracker 
-            <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme">
-        </h1>
-        <div class="meme-container"></div>
+        <div class="brain-rot-graph-container">
+          <h2><i class="fas fa-brain-freeze"></i> Spending Frequency</h2>
+          <img src="{{ url_for('get_graph', filename=graph_filenames.heatmap) }}" class="brain-rot-graph" />
+        </div>
 
-        <form action="/" method="POST" enctype="multipart/form-data">
-            <label for="file" class="brain-rot-upload-btn">Upload JSON File</label>
-            <input type="file" name="file" id="file">
-            <button type="submit" class="brain-rot-upload-btn">Analyze</button>
-        </form>
+        <div class="brain-rot-stats-grid">
+          <div class="brain-rot-stat-card">
+            <h3><i class="fas fa-coffee-spill"></i> Daily Small Exchange</h3>
+            <p>ETB {{ "%.2f"|format(analysis_result.savings_opportunity.daily_coffee_cost) }}</p>
+          </div>
+          <div class="brain-rot-stat-card">
+            <h3><i class="fas fa-piggy-bank-explosion"></i> Potential Yearly Savings</h3>
+            <p>ETB {{ "%.2f"|format(analysis_result.savings_opportunity.potential_yearly_savings) }}</p>
+          </div>
+        </div>
 
-        {% if error_message %}
-            <div class="brain-rot-error">
-                🚨 CATASTROPHIC FAILURE: {{ error_message }} 🚨
-            </div>
-        {% endif %}
+        <div class="brain-rot-graph-container">
+          <h2><i class="fas fa-skull-cash"></i> Monthly Financial Seizure</h2>
+          <img src="{{ url_for('get_graph', filename=graph_filenames.monthly) }}" class="brain-rot-graph" />
+        </div>
 
-        {% if analysis_result %}
-            <div class="brain-rot-stats-grid">
-                <div class="brain-rot-stat-card">
-                    <h3><i class="fas fa-fire-extinguisher"></i> Total Spent</h3>
-                    <p>ETB {{ "%.2f"|format(analysis_result.total_spent) }}</p>
-                </div>
-                <div class="brain-rot-stat-card">
-                    <h3><i class="fas fa-calendar-armageddon"></i> Most Active Day</h3>
-                    <p>{{ analysis_result.most_active_day }}</p>
-                </div>
-                <div class="brain-rot-stat-card">
-                    <h3><i class="fas fa-clockwork-orange"></i> Peak Activity Hour</h3>
-                    <p>{{ analysis_result.peak_hour }}:00</p>
-                </div>
-                <div class="brain-rot-stat-card">
-                    <h3><i class="fas fa-store-of-doom"></i> Guilty Pleasure Dealer / Favorite Merchant</h3>
-                    <p>{{ analysis_result.top_merchant }}</p>
-                </div>
-            </div>
-
-            <div class="brain-rot-graph-container">
-                <h2><i class="fas fa-brain-freeze"></i> Spending Frequency</h2>
-                <img src="{{ url_for('get_graph', filename=graph_filenames.heatmap) }}" class="brain-rot-graph">
-            </div>
-
-            <div class="brain-rot-stats-grid">
-                <div class="brain-rot-stat-card">
-                    <h3><i class="fas fa-coffee-spill"></i> Daily small exchange</h3>
-                    <p>ETB {{ "%.2f"|format(analysis_result.savings_opportunity.daily_coffee_cost) }}</p>
-                </div>
-                <div class="brain-rot-stat-card">
-                    <h3><i class="fas fa-piggy-bank-explosion"></i> Potential Yearly Savings</h3>
-                    <p>ETB {{ "%.2f"|format(analysis_result.savings_opportunity.potential_yearly_savings) }}</p>
-                </div>
-            </div>
-
-            <div class="brain-rot-graph-container">
-                <h2><i class="fas fa-skull-cash"></i> Monthly Financial Seizure</h2>
-                <img src="{{ url_for('get_graph', filename=graph_filenames.monthly) }}" class="brain-rot-graph">
-            </div>
-
-            <div class="brain-rot-graph-container">
-                <h2><i class="fas fa-money-vertigo"></i> Cash Dementia Wheel</h2>
-                <img src="{{ url_for('get_graph', filename=graph_filenames.distribution) }}" class="brain-rot-graph">
-            </div>
-        {% endif %}
-    </div>
+        <div class="brain-rot-graph-container">
+          <h2><i class="fas fa-money-vertigo"></i> Cash Dementia Wheel</h2>
+          <img src="{{ url_for('get_graph', filename=graph_filenames.distribution) }}" class="brain-rot-graph" />
+        </div>
+      </section>
+    {% endif %}
+  </div>
 </body>
 </html>

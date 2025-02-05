@@ -6,17 +6,45 @@ import re
 import seaborn as sns
 from datetime import datetime
 from collections import defaultdict
-
-# GRAPH_FOLDER = "static/graphs"
-# os.makedirs(GRAPH_FOLDER, exist_ok=True)
+import xml.etree.ElementTree as ET
 
 GRAPH_FOLDER = os.path.join(os.path.dirname(__file__), "static/graphs")
 os.makedirs(GRAPH_FOLDER, exist_ok=True)
 
 def analyze_transactions(file_path):
+    data = None
+    extension = os.path.splitext(file_path)[1].lower()
+
     try:
-        with open(file_path, "r") as f:
-            data = json.load(f)
+        if extension == ".json":
+            with open(file_path, "r") as f:
+                data = json.load(f)
+        elif extension == ".xml":
+            tree = ET.parse(file_path)
+            root = tree.getroot()
+            sms = []
+            # Attempt to find <sms> elements with attributes (common in SMS backup XML files)
+            for elem in root.findall(".//sms"):
+                # Use attributes if available
+                if elem.attrib:
+                    sms.append(elem.attrib)
+                else:
+                    msg = {}
+                    for child in elem:
+                        msg[child.tag] = child.text
+                    sms.append(msg)
+            # Also check for <message> elements if they exist
+            for elem in root.findall(".//message"):
+                msg = {}
+                if elem.attrib:
+                    msg = elem.attrib
+                else:
+                    for child in elem:
+                        msg[child.tag] = child.text
+                sms.append(msg)
+            data = {"sms": sms}
+        else:
+            return {"error": "Unsupported file format. Please upload a JSON or XML file."}, None
     except Exception as e:
         return {"error": "Invalid file format"}, None
 
@@ -26,30 +54,29 @@ def analyze_transactions(file_path):
     
     for message in sms_list:
         try:
+            # Support both attribute and element text for 'body'
             body = message.get("body", "")
             if "ETB" not in body:
                 continue
 
-            # Extract amount
+            # Extract amount (after "ETB")
             amount_part = body.split("ETB")[1].strip()
             amount_text = re.findall(r"[\d,]+\.?\d*", amount_part)[0]
             amount_cleaned = amount_text.replace(',', '')
-            
-            # Handle multiple decimals
             if amount_cleaned.count('.') > 1:
                 parts = amount_cleaned.split('.')
                 amount_cleaned = f"{parts[0]}.{''.join(parts[1:])}"
-                
-            # Date handling
-            date_ms = int(message.get("date", 0))
+
+            # Get date from attribute; many SMS backups provide date in milliseconds as an attribute
+            date_val = message.get("date", "0")
+            date_ms = int(date_val)
             transaction_date = datetime.fromtimestamp(date_ms / 1000)
             
             transactions.append({
                 "date": transaction_date,
                 "amount": float(amount_cleaned)
             })
-            
-        except (IndexError, ValueError, KeyError) as e:
+        except (IndexError, ValueError, KeyError):
             continue
 
     if not transactions:
@@ -80,7 +107,7 @@ def analyze_transactions(file_path):
     return stats, graph_filenames
 
 def create_monthly_chart(df):
-    plt.style.use('seaborn-v0_8')  # Correct seaborn style
+    plt.style.use('seaborn-v0_8')
     fig, ax = plt.subplots(figsize=(12, 6))
     
     monthly = df.groupby(pd.PeriodIndex(df['date'], freq="M"))['amount'].sum()
@@ -93,7 +120,6 @@ def create_monthly_chart(df):
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     ax.spines[['top','right']].set_visible(False)
     
-    # Add value labels
     for p in ax.patches:
         ax.annotate(f"{p.get_height():.0f}", 
                     (p.get_x() + p.get_width() / 2., p.get_height()),
@@ -112,23 +138,21 @@ def create_donut_chart(df):
     
     amounts = pd.cut(df['amount'], 
                     bins=[0, 100, 500, 1000, 5000, float('inf')],
-                    labels=['Micro (<100)', 'Small (100-500)', 'Medium (500-1000)', 
-                           'Large (1000-5000)', 'XL (>5000)'])
+                    labels=['Micro (<100)', 'Small (100-500)', 'Medium (500-1000)', 'Large (1000-5000)', 'XL (>5000)'])
     counts = amounts.value_counts()
     
     colors = ['#00FF88', '#00E676', '#00C853', '#009624', '#006400']
     wedges, texts, autotexts = ax.pie(counts, colors=colors, startangle=90,
-                                     wedgeprops=dict(width=0.4), autopct='%1.1f%%')
+                                      wedgeprops=dict(width=0.4), autopct='%1.1f%%')
     
-    # Add center circle
     centre_circle = plt.Circle((0,0),0.70,fc='white')
     ax.add_artist(centre_circle)
     
     ax.set_title('Transaction Size Distribution', fontsize=14, pad=20)
     plt.legend(wedges, counts.index,
-              title="Categories",
-              loc="center left",
-              bbox_to_anchor=(1, 0, 0.5, 1))
+               title="Categories",
+               loc="center left",
+               bbox_to_anchor=(1, 0, 0.5, 1))
     
     filename = "donut_chart.png"
     plt.savefig(os.path.join(GRAPH_FOLDER, filename), bbox_inches='tight', dpi=300)
