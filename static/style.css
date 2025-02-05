@@ -5,6 +5,13 @@
     --text: #FFFFFF;
 }
 
+.debug-info {
+    background: #ff000020;
+    padding: 1rem;
+    margin: 2rem 0;
+    border: 2px solid red;
+}
+
 body {
     background: var(--background);
     color: var(--text);
@@ -28,6 +35,13 @@ body {
     background: linear-gradient(45deg, var(--accent), #00D1FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px; /* Adjust spacing as needed */
 }
 
 .meme-container {
