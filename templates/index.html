@@ -9,32 +9,24 @@
 </head>
 <body>
     <div class="brain-rot-container">
-<<<<<<< HEAD
+
         <h1 class="brain-rot-title"><img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"> Cash Dementia Tracker <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"></h1>
         <div class="meme-container">
             
         </div>
-=======
+
         <h1 class="brain-rot-title">
             <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme"> 
             Cash Dementia Tracker 
             <img src="{{ url_for('static', filename='con.png') }}" alt="meme" class="john-travolta-meme">
         </h1>
         <div class="meme-container"></div>
->>>>>>> c70cbd5 (please work)
+
         <form action="/" method="POST" enctype="multipart/form-data">
             <label for="file" class="brain-rot-upload-btn">Upload JSON File</label>
             <input type="file" name="file" id="file">
             <button type="submit" class="brain-rot-upload-btn">Analyze</button>
         </form>
-<<<<<<< HEAD
-<!--         <div class="button-container">
-            <button class="brain-rot-upload-btn">Upload JSON File</button>
-            <button class="brain-rot-scan-btn">Analyze</button>
-        </div> -->
-        
-=======
->>>>>>> c70cbd5 (please work)
 
         {% if error_message %}
             <div class="brain-rot-error">
